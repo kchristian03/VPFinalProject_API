@@ -11,12 +11,14 @@ import (
 type User struct {
 	gorm.Model
 	PersonalAccessToken []PersonalAccessToken `gorm:"foreignKey:UserID"`
+	Notes               []Note                `gorm:"foreignKey:UserID"`
 	Name                string                `gorm:"not null"`
 	Email               string                `gorm:"unique"`
 	Username            string                `gorm:"unique"`
-	Password            string                `json:"-"`
-	Streak              int                   `json:"-"`
-	ProfilePic          string                `json:"-"`
+	Password            string                `json:""`
+	Streak              int                   `json:""`
+	StreakDate          time.Time             `json:""`
+	ProfilePic          string                `json:""`
 }
 
 func (_ User) Login(username string, password string) (*User, error) {

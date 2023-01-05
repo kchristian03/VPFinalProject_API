@@ -10,15 +10,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"net/mail"
+	"time"
 )
 
 type UserRegister struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Repeat   string `json:"repeat"`
-	Streak   int    `json:"streak"`
+	Name       string    `json:"name"`
+	Email      string    `json:"email"`
+	Username   string    `json:"username"`
+	Password   string    `json:"password"`
+	Repeat     string    `json:"repeat"`
+	Streak     int       `json:"streak"`
+	StreakDate time.Time `json:"streak_date"`
 }
 
 func RegisterHandler(c *fiber.Ctx) error {
@@ -38,11 +40,12 @@ func RegisterHandler(c *fiber.Ctx) error {
 	password, err := app.Utilities.Crypto.HashPassword(user.Password)
 
 	newUser := models.User{
-		Name:     user.Name,
-		Email:    user.Email,
-		Username: user.Username,
-		Password: password,
-		Streak:   user.Streak,
+		Name:       user.Name,
+		Email:      user.Email,
+		Username:   user.Username,
+		Password:   password,
+		Streak:     user.Streak,
+		StreakDate: time.Date(1111, 11, 11, 11, 11, 11, 11, time.Local),
 	}
 
 	register, err := newUser.Register()
